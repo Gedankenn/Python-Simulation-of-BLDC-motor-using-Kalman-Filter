@@ -175,7 +175,4 @@ $$ \hat{x}_{k|k} = \hat{x}_{k|k-1}+K_k\tilde{y}_k$$
 $$ P_{k|k} = (I -K_kH)P_{k|k-1}$$
 
 # The Results
-
-<iframe width="100%" height="300" src="Resultados/kalman_fig_1.pdf">
-
-<embed src="Resultados/kalman_fig_1.pdf" type="application/pdf">
+The results are presented in the ```Resultados``` folder.
