@@ -1,29 +1,27 @@
-# Simulation-of-Brushless-DC-using-Field-Oriented-Control-and-Extended-Kalman-Filter
+<p align="center"><img src="assets/banner.svg" alt="BLDC + FOC + Extended Kalman Filter: rotor-speed estimation for a brushless DC motor, in simulation" width="100%"></p>
 
-Simulation of a brushless dc motor using FOC method and Extended Kalman Filter as estimation method for the velocity of the rotor based on the works of:
+<p align="center">
+  <img src="https://img.shields.io/badge/topic-Extended%20Kalman%20Filter-F2B54A?style=flat-square&labelColor=0F1419" alt="Topic: Extended Kalman Filter">
+  <img src="https://img.shields.io/badge/control-FOC-1C2430?style=flat-square&labelColor=0F1419" alt="Control: FOC">
+  <img src="https://img.shields.io/badge/motor-BLDC-1C2430?style=flat-square&labelColor=0F1419" alt="Motor: BLDC">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache--2.0-263241?style=flat-square&labelColor=0F1419" alt="License: Apache-2.0"></a>
+</p>
 
-* XIA, C. L. Permanent Magnet Brushless DC Motor Drives and Controls. [S. l.: s. n.], 2012.
-ISBN 9781118188330. DOI: 10.1002/9781118188347.
-* XIA, K. et al. Model predictive control method of torque ripple reduction for BLDC Motor.
-IEEE Transactions on Magnetics, v. 56, n. 1, p. 1–6, 2020. ISSN 19410069. DOI:
-10.1109/TMAG.2019.2950953.
+**Simulation of a brushless DC motor using Field-Oriented Control and an Extended Kalman Filter** as the estimation method for the rotor velocity. Undergraduate thesis (TCC) in Computer Engineering at UTFPR.
 
-* O’ROURKE, C. J. et al. A Geometric Interpretation of Reference Frames and Transformations:
-Dq0, Clarke, and Park. IEEE Transactions on Energy Conversion, v. 34, n. 4, p. 2070–2083,2019. ISSN 15580059. DOI: 10.1109/TEC.2019.2941175.
-* SCHMITZ, C. Projeto E Otimização De Motores Bldc De Imãs Permanentes Superficiais.
-Dissertação de Mestrado, UFSC, 2017.
-* TERZIC, B.; JADRIC, M. Design and implementation of the extended Kalman filter for the
-speed and rotor position estimation of brushless dc motor. IEEE Transactions on Industrial
-Electronics, IEEE, v. 48, n. 6, p. 1065–1073, 2001. ISSN 02780046. DOI:
-10.1109/41.969385.
+> **Status: complete (thesis).** This repository holds the write-up and the results; the simulation source code itself is not included here.
 
-* LIU, Y.; ZHU, Z. Q.; HOWE, D. Instantaneous torque estimation in sensorless
-direct-torque-controlled brushless DC motors. IEEE Transactions on Industry Applications,
-v. 42, n. 5, p. 1275–1283, 2006. ISSN 00939994. DOI: 10.1109/TIA.2006.880854
+📄 **Thesis (in Portuguese):** [Modelagem e Controle de Motor sem escovas utilizando Filtro Estendido de Kalman](Modelagem%20e%20Controle%20de%20Motor%20sem%20escovas%20utilizando%20Filtro%20Estendido%20de%20Kalman.pdf) · also in the [UTFPR repository](https://repositorio.utfpr.edu.br/jspui/handle/1/29127)
 
-## Repository contents
+Related: [ESP32-FOC](https://github.com/Gedankenn/ESP32-FOC) (firmware) · [OTPC](https://github.com/Gedankenn/OTPC) (PMSM traction controller)
 
-This repository holds the write-up and results of the work; the simulation source code itself is not included here.
+---
+
+## Overview
+
+The motor is modeled in the phase (abc) frame with the rotor speed and electrical angle as states. The model is linearized locally to build the Extended Kalman Filter, which estimates rotor speed and position from the measured phase currents. The full discussion is in the thesis PDF.
+
+## Architecture
 
 | Path | Content |
 |------|---------|
@@ -31,11 +29,20 @@ This repository holds the write-up and results of the work; the simulation sourc
 | `Resultados/kalman_fig_1.pdf` … `kalman_fig_5.pdf` | Simulation result figures |
 | `Resultados/erro_total.pdf` | Total estimation error |
 
-## Em Portugues meu TCC
+## Results
 
-* <https://repositorio.utfpr.edu.br/jspui/handle/1/29127>
+The result figures are in the [`Resultados`](Resultados) folder (PDF):
 
-# The mathematical model for the BRUSHLESS
+| Figure | File |
+|---|---|
+| Kalman results 1–5 | [fig 1](Resultados/kalman_fig_1.pdf) · [fig 2](Resultados/kalman_fig_2.pdf) · [fig 3](Resultados/kalman_fig_3.pdf) · [fig 4](Resultados/kalman_fig_4.pdf) · [fig 5](Resultados/kalman_fig_5.pdf) |
+| Total estimation error | [erro_total.pdf](Resultados/erro_total.pdf) |
+
+The complete discussion of the results is in the thesis PDF at the root of the repository.
+
+## Theory
+
+### State-space model of the BLDC motor
 
 $$
 \frac{d}{dt}x = Fx+Gu\\
@@ -54,7 +61,6 @@ I_c \\
 = \left(\begin{array}{ccccc}
 -\frac{R}{L-M} & 0 & 0 & -\frac{P_p\phi_mF_a(\theta_e)}{L-M} & 0\\
 0 & -\frac{R}{L-M} & 0 & -\frac{P_p\phi_mF_b(\theta_e)}{L-M} & 0\\
-0 & 0 & -\frac{R}{L-M} & -\frac{P_p\phi_mF_c(\theta_e)}{L-M} & 0\\
 0 & 0 & -\frac{R}{L-M} & -\frac{P_p\phi_mF_c(\theta_e)}{L-M} & 0\\
 \frac{P_p\phi_mF_A(\theta_e)}{J} & \frac{P_p\phi_mF_B(\theta_e)}{J} & \frac{P_p\phi_mF_C(\theta_e)}{J} & -\frac{B}{J} & 0 \\
 0 & 0 & 0 & P_p & 0
@@ -125,7 +131,7 @@ f_5 &= P_p\omega_m
 \end{array}
 $$
 
-Applying the local linearization whe obtain the model we will use for the Extended Kalman Filter.
+Applying local linearization, we obtain the model we will use for the Extended Kalman Filter.
 
 $$
 dF(x,t) =
@@ -133,19 +139,19 @@ dF(x,t) =
 -\frac{R}{L-M} & 0 & 0 & -\frac{P_p\phi_mF_a(\theta_e)}{L-M} & -\frac{P_p\phi_m\omega_r}{L-M}\frac{dF_a(theta_e)}{d\theta_e}\\
 0 & -\frac{R}{L-M} & 0 & -\frac{P_p\phi_mF_b(\theta_e)}{L-M} & -\frac{P_p\phi_m\omega_r}{L-M}\frac{dF_b(theta_e)}{d\theta_e}\\
 0 & 0 & -\frac{R}{L-M} & -\frac{P_p\phi_mF_c(\theta_e)}{L-M} & -\frac{P_p\phi_m\omega_r}{L-M}\frac{dF_c(theta_e)}{d\theta_e}\\
-\frac{P_p\phi_mF_a(\theta_e)}{J} & \frac{P_p\phi_mF_b(\theta_e)}{J} & \frac{P_p\phi_mF_c(\theta_e}{J} & -\frac{B}{J} &
+\frac{P_p\phi_mF_a(\theta_e)}{J} & \frac{P_p\phi_mF_b(\theta_e)}{J} & \frac{P_p\phi_mF_c(\theta_e)}{J} & -\frac{B}{J} &
 \frac{P_p\phi_m}{J}(\frac{dF_a(\theta_e)}{d\theta_e}i_a + \frac{dF_b(\theta_e)}{d\theta_e}i_b + \frac{dF_c(\theta_e)}{d\theta_e}i_c) \\
 0 & 0 & 0 & P_p & 0
 \end{array}\right)
 $$
 
-## The discrete equation for dF is
+### Discretization of dF
 
 $$
 dF_d = I + dF.Ts + \frac{dF^2}{2!}Ts
 $$
 
-## The Extended Kalman Equations
+### Extended Kalman Filter equations
 
 $$
 \hat{x}_{k|k+1} = F\hat{x}_{k|k} + Gu_k + \omega_k
@@ -184,18 +190,32 @@ $$ K_k = P_{k|k-1}H^T(HP_{k|k-1}H^T+R_n)^{-1}$$
 $$ \hat{x}_{k|k} = \hat{x}_{k|k-1}+K_k\tilde{y}_k$$
 $$ P_{k|k} = (I -K_kH)P_{k|k-1}$$
 
-# The Results
-The results are presented in the ```Resultados``` folder.
+## References
 
-- [kalman_fig_1.pdf](Resultados/kalman_fig_1.pdf)
-- [kalman_fig_2.pdf](Resultados/kalman_fig_2.pdf)
-- [kalman_fig_3.pdf](Resultados/kalman_fig_3.pdf)
-- [kalman_fig_4.pdf](Resultados/kalman_fig_4.pdf)
-- [kalman_fig_5.pdf](Resultados/kalman_fig_5.pdf)
-- [erro_total.pdf](Resultados/erro_total.pdf)
+The work is based on:
 
-The complete discussion is in the thesis PDF at the root of the repository.
+* XIA, C. L. Permanent Magnet Brushless DC Motor Drives and Controls. [S. l.: s. n.], 2012.
+ISBN 9781118188330. DOI: 10.1002/9781118188347.
+* XIA, K. et al. Model predictive control method of torque ripple reduction for BLDC Motor.
+IEEE Transactions on Magnetics, v. 56, n. 1, p. 1–6, 2020. ISSN 19410069. DOI:
+10.1109/TMAG.2019.2950953.
+
+* O’ROURKE, C. J. et al. A Geometric Interpretation of Reference Frames and Transformations:
+Dq0, Clarke, and Park. IEEE Transactions on Energy Conversion, v. 34, n. 4, p. 2070–2083,2019. ISSN 15580059. DOI: 10.1109/TEC.2019.2941175.
+* SCHMITZ, C. Projeto E Otimização De Motores Bldc De Imãs Permanentes Superficiais.
+Dissertação de Mestrado, UFSC, 2017.
+* TERZIC, B.; JADRIC, M. Design and implementation of the extended Kalman filter for the
+speed and rotor position estimation of brushless dc motor. IEEE Transactions on Industrial
+Electronics, IEEE, v. 48, n. 6, p. 1065–1073, 2001. ISSN 02780046. DOI:
+10.1109/41.969385.
+
+* LIU, Y.; ZHU, Z. Q.; HOWE, D. Instantaneous torque estimation in sensorless
+direct-torque-controlled brushless DC motors. IEEE Transactions on Industry Applications,
+v. 42, n. 5, p. 1275–1283, 2006. ISSN 00939994. DOI: 10.1109/TIA.2006.880854
 
 ## License
 
 Apache License 2.0, see [LICENSE](LICENSE).
+
+---
+<sub>Part of <a href="https://github.com/Gedankenn">Fabio Slika Stella's</a> embedded work · <a href="https://gedankenn.github.io/Gedankenn/">portfolio</a></sub>
