@@ -21,6 +21,16 @@ Electronics, IEEE, v. 48, n. 6, p. 1065–1073, 2001. ISSN 02780046. DOI:
 direct-torque-controlled brushless DC motors. IEEE Transactions on Industry Applications,
 v. 42, n. 5, p. 1275–1283, 2006. ISSN 00939994. DOI: 10.1109/TIA.2006.880854
 
+## Repository contents
+
+This repository holds the write-up and results of the work; the simulation source code itself is not included here.
+
+| Path | Content |
+|------|---------|
+| `Modelagem e Controle de Motor sem escovas utilizando Filtro Estendido de Kalman.pdf` | Full thesis (in Portuguese) |
+| `Resultados/kalman_fig_1.pdf` … `kalman_fig_5.pdf` | Simulation result figures |
+| `Resultados/erro_total.pdf` | Total estimation error |
+
 ## Em Portugues meu TCC
 
 * <https://repositorio.utfpr.edu.br/jspui/handle/1/29127>
@@ -176,3 +186,16 @@ $$ P_{k|k} = (I -K_kH)P_{k|k-1}$$
 
 # The Results
 The results are presented in the ```Resultados``` folder.
+
+- [kalman_fig_1.pdf](Resultados/kalman_fig_1.pdf)
+- [kalman_fig_2.pdf](Resultados/kalman_fig_2.pdf)
+- [kalman_fig_3.pdf](Resultados/kalman_fig_3.pdf)
+- [kalman_fig_4.pdf](Resultados/kalman_fig_4.pdf)
+- [kalman_fig_5.pdf](Resultados/kalman_fig_5.pdf)
+- [erro_total.pdf](Resultados/erro_total.pdf)
+
+The complete discussion is in the thesis PDF at the root of the repository.
+
+## License
+
+Apache License 2.0, see [LICENSE](LICENSE).
